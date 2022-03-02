@@ -1,0 +1,103 @@
+version: '3.9'
+
+services:
+  currency-exchange:
+    image: lordrose/ms-currency-exchange-service:0.0.1-SNAPSHOT
+    ports:
+      - "8000:8000"
+    networks:
+      - currency-network
+    depends_on:
+      - naming-server
+      - rabbitmq
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    environment:
+      EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING_ZIPKIN_BASE-URL: http://zipkin-server:9411/
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+
+  currency-conversion:
+    image: lordrose/ms-currency-conversion-service:0.0.1-SNAPSHOT
+    ports:
+      - "8100:8100"
+    networks:
+      - currency-network
+    depends_on:
+      - naming-server
+      - rabbitmq
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    environment:
+      EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING_ZIPKIN_BASE-URL: http://zipkin-server:9411/
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+
+  api-gateway:
+    image: lordrose/ms-api-gateway:0.0.1-SNAPSHOT
+    ports:
+      - "8765:8765"
+    networks:
+      - currency-network
+    depends_on:
+      - naming-server
+      - rabbitmq
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    environment:
+      EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING_ZIPKIN_BASE-URL: http://zipkin-server:9411/
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+
+  naming-server:
+    image: lordrose/ms-naming-server:0.0.1-SNAPSHOT
+    ports:
+      - "8761:8761"
+    networks:
+      - currency-network
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+
+  zipkin-server:
+    image: openzipkin/zipkin:2.23.16
+    ports:
+      - "9411:9411"
+    networks:
+      - currency-network
+    depends_on:
+      - rabbitmq
+    deploy:
+      resources:
+        limits:
+          memory: 300m
+    environment:
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+
+  rabbitmq:
+    image: rabbitmq:3.9.13-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - currency-network
+    deploy:
+     resources:
+      limits:
+       memory: 300m
+
+networks:
+  currency-network:
