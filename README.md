@@ -5,6 +5,8 @@ Four simple Spring Boot projects designed using microservices techniques and Spr
 * [List of contained projects](#list-of-contained-projects)
 * [Technologies](#technologies)
 * [Setup](#setup)
+* [Run](#run)
+* [End points](#end-points)
 
 # List of contained projects
 * [Currency Exchange Service](https://github.com/lordrose1951890/currency-microservices-project/tree/master/currency-exchange-service)
@@ -46,12 +48,12 @@ or ```mvnw spring-boot:build-image``` if you don't have Maven installed.
 docker compose up
 ```
 
-# Run
+## Run
 Open up your browser and navigate to [localhost:8761](http://localhost:8761) and confirm the Eureka server is 
 running. If the server is running, you should be able to see all 3 of the other project instances are also running 
 with the status 'UP'.
 
-# End points:
+## End points:
 [Currency Exchange Service](https://github.com/lordrose1951890/currency-microservices-project/tree/master/currency-exchange-service)
 * http://localhost:8000/currency-exchange/usd/to/vnd
 * http://localhost:8000/currency-exchange/cad/to/vnd
@@ -64,3 +66,9 @@ with the status 'UP'.
 * http://localhost:8765/currency-exchange/usd/to/vnd
 * http://localhost:8765/currency-conversion/feign/usd/to/vnd/quantity/10
 * http://localhost:8765/conversion/usd/to/vnd/quantity/10
+
+Zipkin
+* http://localhost:9411/
+
+RabbitMQ  
+* http://localhost:15672/ (with username: guest, password: guest)
