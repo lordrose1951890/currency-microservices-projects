@@ -62,6 +62,5 @@ with the status 'UP'.
 
 [Api Gateway](https://github.com/lordrose1951890/currency-microservices-project/tree/master/api-gateway)
 * http://localhost:8765/currency-exchange/usd/to/vnd
-* http://localhost:8765/currency-conversion/usd/to/vnd/quantity/10
 * http://localhost:8765/currency-conversion/feign/usd/to/vnd/quantity/10
 * http://localhost:8765/conversion/usd/to/vnd/quantity/10
