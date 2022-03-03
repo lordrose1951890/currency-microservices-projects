@@ -32,9 +32,36 @@ This project is using:
 * Docker and Docker Compose
 
 # Setup
-To run this project, install it locally using abc:
-(Dummy setup code)
+Docker is required to run these projects:
+1. For all 4 projects, each, you use need to build the docker image using the maven spring-boot plugin or the 
+   command line:
 ```
-mvn install effective-coding
-mvn run
+mvn spring-boot:build-image
 ```
+
+or ```mvnw spring-boot:build-image``` if you don't have Maven installed.
+
+2. Using Docker CLI and navigate to the docker-compose.yaml file, type:
+```
+docker compose up
+```
+
+# Run
+Open up your browser and navigate to [localhost:8761](http://localhost:8761) and confirm the Eureka server is 
+running. If the server is running, you should be able to see all 3 of the other project instances are also running 
+with the status 'UP'.
+
+# End points:
+[Currency Exchange Service](https://github.com/lordrose1951890/currency-microservices-project/tree/master/currency-exchange-service)
+* http://localhost:8000/currency-exchange/usd/to/vnd
+* http://localhost:8000/currency-exchange/cad/to/vnd
+* http://localhost:8000/currency-exchange/eur/to/vnd
+
+[Currency Conversion Service](https://github.com/lordrose1951890/currency-microservices-project/tree/master/currency-conversion-service)
+* http://localhost:8100/currency-conversion/feign/usd/to/vnd/quantity/10
+
+[Api Gateway](https://github.com/lordrose1951890/currency-microservices-project/tree/master/api-gateway)
+* http://localhost:8765/currency-exchange/usd/to/vnd
+* http://localhost:8765/currency-conversion/usd/to/vnd/quantity/10
+* http://localhost:8765/currency-conversion/feign/usd/to/vnd/quantity/10
+* http://localhost:8765/conversion/usd/to/vnd/quantity/10
